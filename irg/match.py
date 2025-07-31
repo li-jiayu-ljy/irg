@@ -42,8 +42,11 @@ def compute_distances(
     if all(p is None for p in pools):
         distance_matrix = torch.cdist(norm_x, norm_y, p=2) / 2
         rows, cols = torch.meshgrid(
-            torch.from_numpy(x_indices) if x_indices is not None else torch.arange(size_a),
-            torch.from_numpy(y_indices) if y_indices is not None else torch.arange(size_b), indexing='ij')
+            (torch.from_numpy(x_indices) if
+             x_indices is not None else torch.arange(size_a)).to(device=distance_matrix.device),
+            (torch.from_numpy(y_indices) if
+             y_indices is not None else torch.arange(size_b)).to(device=distance_matrix.device),
+            indexing='ij')
         sparse_indices = torch.stack([rows.flatten(), cols.flatten()], dim=0)
         return torch.sparse_coo_tensor(
             indices=sparse_indices,
@@ -100,10 +103,10 @@ def compute_distances(
         size=(norm_x.shape[0], norm_y.shape[0]),
     ).coalesce()
     new_row_indices = (
-        torch.from_numpy(x_indices) if x_indices is not None else torch.arange(size_a)
+        (torch.from_numpy(x_indices) if x_indices is not None else torch.arange(size_a)).to(device=distances.device)
     )[distances.indices()[0]]
     new_col_indices = (
-        torch.from_numpy(y_indices) if y_indices is not None else torch.arange(size_b)
+        (torch.from_numpy(y_indices) if y_indices is not None else torch.arange(size_b)).to(device=distances.device)
     )[distances.indices()[1]]
     new_indices = torch.stack([new_row_indices, new_col_indices])
     distances = torch.sparse_coo_tensor(
@@ -197,7 +200,7 @@ def swap_degrees(component_min_size, connected_components, degrees, component_pr
 def collect_connected_components(degrees, dist_x, filtered_pools, max_matrix_size):
     if any(pool is not None for pool in filtered_pools):
         connected_components, connected_pool_indices = find_connected_components(
-            [pool if pool is not None else np.array([]) for pool in filtered_pools], max_matrix_size
+            [pool if pool is not None else np.array([], dtype=np.int32) for pool in filtered_pools], max_matrix_size
         )
         mentioned_in_pools = np.zeros_like(degrees, dtype=np.bool_)
         for pool in connected_components:
@@ -210,7 +213,7 @@ def collect_connected_components(degrees, dist_x, filtered_pools, max_matrix_siz
         else:
             for idle_parent in np.arange(degrees.shape[0])[~mentioned_in_pools]:
                 connected_components.append(np.array([idle_parent]))
-                connected_pool_indices.append(np.array([]))
+                connected_pool_indices.append(np.array([], dtype=np.int32))
             compute_all_distances = np.zeros(len(connected_components), dtype=np.bool_)
     else:
         connected_components = [np.arange(degrees.shape[0])]
