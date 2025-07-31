@@ -308,6 +308,7 @@ def match_trial(
         pools: List[Optional[np.ndarray]], non_overlapping_groups: List[np.ndarray],
         int_scale: float = 10_000, max_matrix_size: int = 100_000_000,
 ) -> np.ndarray:
+    degrees = degrees.astype(np.int64)
     notna = ~isna
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     not_na_indices = torch.arange(values.shape[0])[notna]  # i -> e
