@@ -206,42 +206,6 @@ def find_connected_components(groups: List[np.ndarray], max_matrix_size: int) ->
     return component_indices, group_indices
 
 
-def swap_degrees(component_min_size, connected_components, degrees, component_pred_degrees):
-    n_need_to_swap = np.clip(component_min_size - component_pred_degrees, 0, None).sum()
-    if n_need_to_swap > 0:
-        warnings.warn(f"Need to swap degrees: "
-                      f"{np.clip(component_min_size - component_pred_degrees, 0, None).sum()}")
-    for component_index in tqdm(range(len(connected_components)), "Swap degrees", total=len(connected_components)):
-        pool, min_size, pred_size = (
-            connected_components[component_index], component_min_size[component_index], component_pred_degrees[component_index]
-        )
-        if pred_size >= min_size:
-            continue
-        pool_indices = np.random.choice(
-            np.arange(len(connected_components)).repeat(
-                np.clip(component_pred_degrees - component_min_size, 0, None)
-            ), size=min_size - pred_size, replace=False
-        )
-        vals, cnts = np.unique(pool_indices, return_counts=True)
-        for pool_index, swap_cnt in zip(vals, cnts):
-            swap_out = np.random.choice(
-                connected_components[pool_index].repeat(degrees[connected_components[pool_index]]),
-                size=swap_cnt, replace=False
-            )
-            swap_in = np.random.choice(pool, size=swap_cnt, replace=True)
-            for out_index, out_cnt in zip(*np.unique(swap_out, return_counts=True)):
-                degrees[out_index] -= out_cnt
-            for in_index, in_cnt in zip(*np.unique(swap_in, return_counts=True)):
-                degrees[in_index] += in_cnt
-            component_pred_degrees[pool_index] -= swap_cnt
-            component_pred_degrees[component_index] += swap_cnt
-    if (degrees < 0).any():
-        raise RuntimeError(f"Invalid swapping degree result: {degrees}.")
-    if (component_pred_degrees < 0).any():
-        raise RuntimeError("Invalid swapping degree result on components.")
-    return degrees, component_pred_degrees
-
-
 def collect_connected_components(degrees, dist_x, filtered_pools, max_matrix_size):
     if any(pool is not None for pool in filtered_pools):
         connected_components, connected_pool_indices = find_connected_components(
@@ -278,6 +242,42 @@ def collect_connected_components(degrees, dist_x, filtered_pools, max_matrix_siz
         component_min_size, compute_all_distances, connected_components, connected_pool_indices, pred_degrees,
         row_component_match, col_component_match
     )
+
+
+def swap_degrees(component_min_size, connected_components, degrees, component_pred_degrees):
+    n_need_to_swap = np.clip(component_min_size - component_pred_degrees, 0, None).sum()
+    if n_need_to_swap > 0:
+        warnings.warn(f"Need to swap degrees: "
+                      f"{np.clip(component_min_size - component_pred_degrees, 0, None).sum()}")
+    for component_index in tqdm(range(len(connected_components)), "Swap degrees", total=len(connected_components)):
+        pool, min_size, pred_size = (
+            connected_components[component_index], component_min_size[component_index], component_pred_degrees[component_index]
+        )
+        if pred_size >= min_size:
+            continue
+        pool_indices = np.random.choice(
+            np.arange(len(connected_components)).repeat(
+                np.clip(component_pred_degrees - component_min_size, 0, None)
+            ), size=min_size - pred_size, replace=False
+        )
+        vals, cnts = np.unique(pool_indices, return_counts=True)
+        for pool_index, swap_cnt in zip(vals, cnts):
+            swap_out = np.random.choice(
+                connected_components[pool_index].repeat(degrees[connected_components[pool_index]]),
+                size=swap_cnt, replace=False
+            )
+            swap_in = np.random.choice(pool, size=swap_cnt, replace=True)
+            for out_index, out_cnt in zip(*np.unique(swap_out, return_counts=True)):
+                degrees[out_index] -= out_cnt
+            for in_index, in_cnt in zip(*np.unique(swap_in, return_counts=True)):
+                degrees[in_index] += in_cnt
+            component_pred_degrees[pool_index] -= swap_cnt
+            component_pred_degrees[component_index] += swap_cnt
+    if (degrees < 0).any():
+        raise RuntimeError(f"Invalid swapping degree result: {degrees}.")
+    if (component_pred_degrees < 0).any():
+        raise RuntimeError("Invalid swapping degree result on components.")
+    return degrees, component_pred_degrees
 
 
 def sample_parent_degrees(
