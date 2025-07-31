@@ -1,0 +1,183 @@
+{
+  "tables": {
+    "players": {
+      "columns": {
+        "id": {
+          "sdtype": "id"
+        },
+        "flag": {
+          "sdtype": "categorical"
+        }
+      },
+      "primary_key": "id"
+    },
+    "courses": {
+      "columns": {
+        "id": {
+          "sdtype": "id"
+        },
+        "difficulty": {
+          "sdtype": "categorical"
+        },
+        "gameStyle": {
+          "sdtype": "categorical"
+        },
+        "creation": {
+          "sdtype": "numerical"
+        }
+      },
+      "primary_key": "id"
+    },
+    "course_maker": {
+      "columns": {
+        "id": {
+          "sdtype": "id"
+        },
+        "maker": {
+          "sdtype": "id"
+        }
+      }
+    },
+    "plays": {
+      "columns": {
+        "catch": {
+          "sdtype": "numerical"
+        },
+        "id": {
+          "sdtype": "id"
+        },
+        "player": {
+          "sdtype": "id"
+        },
+        "playID": {
+          "sdtype": "id"
+        }
+      },
+      "primary_key": "playID"
+    },
+    "clears": {
+      "columns": {
+        "catch": {
+          "sdtype": "numerical"
+        },
+        "playID": {
+          "sdtype": "id"
+        }
+      }
+    },
+    "likes": {
+      "columns": {
+        "catch": {
+          "sdtype": "numerical"
+        },
+        "playID": {
+          "sdtype": "id"
+        }
+      }
+    },
+    "records": {
+      "columns": {
+        "catch": {
+          "sdtype": "numerical"
+        },
+        "timeRecord": {
+          "sdtype": "numerical"
+        },
+        "playID": {
+          "sdtype": "id"
+        }
+      }
+    },
+    "course_meta": {
+      "columns": {
+        "catch": {
+          "sdtype": "numerical"
+        },
+        "id": {
+          "sdtype": "id"
+        },
+        "firstClear": {
+          "sdtype": "id"
+        },
+        "tag": {
+          "sdtype": "categorical"
+        },
+        "stars": {
+          "sdtype": "numerical"
+        },
+        "players": {
+          "sdtype": "numerical"
+        },
+        "tweets": {
+          "sdtype": "categorical"
+        },
+        "clears": {
+          "sdtype": "numerical"
+        },
+        "attempts": {
+          "sdtype": "numerical"
+        },
+        "clearRate": {
+          "sdtype": "numerical"
+        }
+      }
+    }
+  },
+  "relationships": [
+    {
+      "parent_table_name": "courses",
+      "child_table_name": "course_meta",
+      "parent_primary_key": "id",
+      "child_foreign_key": "id"
+    },
+    {
+      "parent_table_name": "courses",
+      "child_table_name": "plays",
+      "parent_primary_key": "id",
+      "child_foreign_key": "id"
+    },
+    {
+      "parent_table_name": "players",
+      "child_table_name": "plays",
+      "parent_primary_key": "id",
+      "child_foreign_key": "player"
+    },
+    {
+      "parent_table_name": "courses",
+      "child_table_name": "course_maker",
+      "parent_primary_key": "id",
+      "child_foreign_key": "id"
+    },
+    {
+      "parent_table_name": "players",
+      "child_table_name": "course_maker",
+      "parent_primary_key": "id",
+      "child_foreign_key": "maker"
+    },
+    {
+      "parent_table_name": "plays",
+      "child_table_name": "clears",
+      "parent_primary_key": "playID",
+      "child_foreign_key": "playID"
+    },
+    {
+      "parent_table_name": "plays",
+      "child_table_name": "likes",
+      "parent_primary_key": "playID",
+      "child_foreign_key": "playID"
+    },
+    {
+      "parent_table_name": "plays",
+      "child_table_name": "records",
+      "parent_primary_key": "playID",
+      "child_foreign_key": "playID"
+    },
+    {
+      "parent_table_name": "plays",
+      "child_table_name": "course_meta",
+      "parent_primary_key": "playID",
+      "child_foreign_key": "firstClear"
+    }
+  ],
+  "METADATA_SPEC_VERSION": "MULTI_TABLE_V1"
+}

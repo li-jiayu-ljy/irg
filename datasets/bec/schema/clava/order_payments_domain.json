@@ -1,0 +1,18 @@
+{
+  "payment_sequential": {
+    "size": 29,
+    "type": "continuous"
+  },
+  "payment_type": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "payment_installments": {
+    "size": 24,
+    "type": "continuous"
+  },
+  "payment_value": {
+    "size": 29047,
+    "type": "continuous"
+  }
+}

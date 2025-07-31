@@ -1,0 +1,174 @@
+{
+  "players": {
+    "columns": {
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "flag": {}
+    },
+    "order": [
+      "id",
+      "flag"
+    ]
+  },
+  "courses": {
+    "columns": {
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "difficulty": {},
+      "gameStyle": {},
+      "creation": {
+        "type": "datetime",
+        "min": "2017-02-11 23:00:00"
+      }
+    },
+    "order": [
+      "id",
+      "difficulty",
+      "gameStyle",
+      "creation"
+    ]
+  },
+  "course_maker": {
+    "columns": {
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "maker": {
+        "type": "id",
+        "is_int": false
+      }
+    },
+    "order": [
+      "id",
+      "maker"
+    ]
+  },
+  "plays": {
+    "columns": {
+      "catch": {
+        "type": "datetime",
+        "min": "2017-11-16 14:45:36.703000"
+      },
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "player": {
+        "type": "id",
+        "is_int": false
+      }
+    },
+    "order": [
+      "catch",
+      "id",
+      "player"
+    ]
+  },
+  "clears": {
+    "columns": {
+      "catch": {
+        "type": "datetime",
+        "min": "2017-11-16 14:45:36.703000"
+      },
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "player": {
+        "type": "id",
+        "is_int": false
+      }
+    },
+    "order": [
+      "catch",
+      "id",
+      "player"
+    ]
+  },
+  "likes": {
+    "columns": {
+      "catch": {
+        "type": "datetime",
+        "min": "2017-11-16 14:45:36.703000"
+      },
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "player": {
+        "type": "id",
+        "is_int": false
+      }
+    },
+    "order": [
+      "catch",
+      "id",
+      "player"
+    ]
+  },
+  "records": {
+    "columns": {
+      "catch": {
+        "type": "datetime",
+        "min": "2017-11-16 14:45:36.703000"
+      },
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "player": {
+        "type": "id",
+        "is_int": false
+      },
+      "timeRecord": {}
+    },
+    "order": [
+      "catch",
+      "id",
+      "player",
+      "timeRecord"
+    ]
+  },
+  "course_meta": {
+    "columns": {
+      "catch": {
+        "type": "datetime",
+        "min": "2017-11-16 14:45:36.703000"
+      },
+      "id": {
+        "type": "id",
+        "is_int": false
+      },
+      "firstClear": {
+        "type": "id",
+        "is_int": false
+      },
+      "tag": {
+        "fillna": "<special-for-null>"
+      },
+      "stars": {},
+      "players": {},
+      "tweets": {},
+      "clears": {},
+      "attempts": {},
+      "clearRate": {}
+    },
+    "order": [
+      "catch",
+      "id",
+      "firstClear",
+      "tag",
+      "stars",
+      "players",
+      "tweets",
+      "clears",
+      "attempts",
+      "clearRate"
+    ]
+  }
+}

@@ -1,0 +1,414 @@
+{
+  "tables": {
+    "teams": {
+      "fields": {
+        "teamID": {
+          "type": "id",
+          "subtype": "integer"
+        },
+        "placeholder": {
+          "type": "numerical",
+          "subtype": "integer"
+        }
+      },
+      "primary_key": "teamID"
+    },
+    "players": {
+      "fields": {
+        "playerID": {
+          "type": "id",
+          "subtype": "integer"
+        },
+        "placeholder": {
+          "type": "numerical",
+          "subtype": "integer"
+        }
+      },
+      "primary_key": "playerID"
+    },
+    "gamestats": {
+      "fields": {
+        "gameID": {
+          "type": "id",
+          "subtype": "integer"
+        },
+        "leagueID": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "season": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "homeGoals": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "awayGoals": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "homeProbability": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "drawProbability": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "awayProbability": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "homeGoalsHalfTime": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "awayGoalsHalfTime": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "B365H": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "B365D": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "B365A": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "BWH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "BWD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "BWA": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "IWH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "IWD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "IWA": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSA": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "WHH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "WHD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "WHA": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "VCH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "VCD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "VCA": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSCH": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSCD": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "PSCA": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      },
+      "primary_key": "gameID"
+    },
+    "teamstats": {
+      "fields": {
+        "gameID": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "gamestats",
+            "field": "gameID"
+          }
+        },
+        "teamID": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "teams",
+            "field": "teamID"
+          }
+        },
+        "season": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "location": {
+          "type": "categorical"
+        },
+        "goals": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "xGoals": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "shots": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "shotsOnTarget": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "deep": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "ppda": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "fouls": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "corners": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "yellowCards": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "redCards": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "result": {
+          "type": "categorical"
+        },
+        "teamplayID": {
+          "type": "id",
+          "subtype": "string"
+        }
+      },
+      "primary_key": "teamplayID"
+    },
+    "games": {
+      "fields": {
+        "gameID": {
+          "type": "id",
+          "subtype": "integer"
+        },
+        "homeTeamPlayID": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "teamstats",
+            "field": "teamplayID"
+          }
+        },
+        "awayTeamPlayID": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "teamstats",
+            "field": "teamplayID"
+          }
+        },
+        "placeholder": {
+          "type": "numerical",
+          "subtype": "integer"
+        }
+      },
+      "primary_key": "gameID"
+    },
+    "appearances": {
+      "fields": {
+        "gameID": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "games",
+            "field": "gameID"
+          }
+        },
+        "playerID": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "players",
+            "field": "playerID"
+          }
+        },
+        "goals": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "ownGoals": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "shots": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "xGoals": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "xGoalsChain": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "xGoalsBuildup": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "assists": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "keyPasses": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "xAssists": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "position": {
+          "type": "categorical"
+        },
+        "positionOrder": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "yellowCard": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "redCard": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "time": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "substituteIn": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "substituteOut": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "leagueID": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "appearanceID": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "_isna_key": {
+          "type": "categorical"
+        }
+      },
+      "primary_key": "appearanceID"
+    },
+    "shots": {
+      "fields": {
+        "minute": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "situation": {
+          "type": "categorical"
+        },
+        "lastAction": {
+          "type": "categorical"
+        },
+        "shotType": {
+          "type": "categorical"
+        },
+        "shotResult": {
+          "type": "categorical"
+        },
+        "xGoal": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "positionX": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "positionY": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "shootAppearanceID": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "appearances",
+            "field": "appearanceID"
+          }
+        },
+        "assistAppearanceID": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "appearances",
+            "field": "appearanceID"
+          }
+        }
+      }
+    }
+  }
+}

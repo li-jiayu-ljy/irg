@@ -1,0 +1,126 @@
+{
+  "leagueID": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "season": {
+    "size": 7,
+    "type": "continuous"
+  },
+  "date": {
+    "size": 6834,
+    "type": "continuous"
+  },
+  "homeGoals": {
+    "size": 11,
+    "type": "continuous"
+  },
+  "awayGoals": {
+    "size": 10,
+    "type": "continuous"
+  },
+  "homeProbability": {
+    "size": 7143,
+    "type": "continuous"
+  },
+  "drawProbability": {
+    "size": 4161,
+    "type": "discrete"
+  },
+  "awayProbability": {
+    "size": 6256,
+    "type": "discrete"
+  },
+  "homeGoalsHalfTime": {
+    "size": 7,
+    "type": "continuous"
+  },
+  "awayGoalsHalfTime": {
+    "size": 6,
+    "type": "continuous"
+  },
+  "B365H": {
+    "size": 137,
+    "type": "continuous"
+  },
+  "B365D": {
+    "size": 64,
+    "type": "continuous"
+  },
+  "B365A": {
+    "size": 134,
+    "type": "continuous"
+  },
+  "BWH": {
+    "size": 153,
+    "type": "continuous"
+  },
+  "BWD": {
+    "size": 75,
+    "type": "continuous"
+  },
+  "BWA": {
+    "size": 153,
+    "type": "continuous"
+  },
+  "IWH": {
+    "size": 193,
+    "type": "continuous"
+  },
+  "IWD": {
+    "size": 108,
+    "type": "continuous"
+  },
+  "IWA": {
+    "size": 207,
+    "type": "continuous"
+  },
+  "PSH": {
+    "size": 1006,
+    "type": "continuous"
+  },
+  "PSD": {
+    "size": 776,
+    "type": "continuous"
+  },
+  "PSA": {
+    "size": 1614,
+    "type": "continuous"
+  },
+  "WHH": {
+    "size": 116,
+    "type": "continuous"
+  },
+  "WHD": {
+    "size": 52,
+    "type": "continuous"
+  },
+  "WHA": {
+    "size": 114,
+    "type": "continuous"
+  },
+  "VCH": {
+    "size": 128,
+    "type": "continuous"
+  },
+  "VCD": {
+    "size": 59,
+    "type": "continuous"
+  },
+  "VCA": {
+    "size": 123,
+    "type": "continuous"
+  },
+  "PSCH": {
+    "size": 1005,
+    "type": "continuous"
+  },
+  "PSCD": {
+    "size": 798,
+    "type": "continuous"
+  },
+  "PSCA": {
+    "size": 1573,
+    "type": "continuous"
+  }
+}

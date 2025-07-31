@@ -1,0 +1,347 @@
+{
+  "tables": {
+    "teams": {
+      "columns": {
+        "teamID": {
+          "sdtype": "id"
+        },
+        "placeholder": {
+          "sdtype": "categorical"
+        }
+      },
+      "primary_key": "teamID"
+    },
+    "players": {
+      "columns": {
+        "playerID": {
+          "sdtype": "id"
+        },
+        "placeholder": {
+          "sdtype": "categorical"
+        }
+      },
+      "primary_key": "playerID"
+    },
+    "games": {
+      "columns": {
+        "gameID": {
+          "sdtype": "id"
+        },
+        "homeTeamPlayID": {
+          "sdtype": "id"
+        },
+        "awayTeamPlayID": {
+          "sdtype": "id"
+        }
+      },
+      "primary_key": "gameID"
+    },
+    "gamestats": {
+      "columns": {
+        "gameID": {
+          "sdtype": "id"
+        },
+        "leagueID": {
+          "sdtype": "categorical"
+        },
+        "season": {
+          "sdtype": "numerical"
+        },
+        "date": {
+          "sdtype": "numerical"
+        },
+        "homeGoals": {
+          "sdtype": "numerical"
+        },
+        "awayGoals": {
+          "sdtype": "numerical"
+        },
+        "homeProbability": {
+          "sdtype": "numerical"
+        },
+        "drawProbability": {
+          "sdtype": "categorical"
+        },
+        "awayProbability": {
+          "sdtype": "categorical"
+        },
+        "homeGoalsHalfTime": {
+          "sdtype": "numerical"
+        },
+        "awayGoalsHalfTime": {
+          "sdtype": "numerical"
+        },
+        "B365H": {
+          "sdtype": "numerical"
+        },
+        "B365D": {
+          "sdtype": "numerical"
+        },
+        "B365A": {
+          "sdtype": "numerical"
+        },
+        "BWH": {
+          "sdtype": "numerical"
+        },
+        "BWD": {
+          "sdtype": "numerical"
+        },
+        "BWA": {
+          "sdtype": "numerical"
+        },
+        "IWH": {
+          "sdtype": "numerical"
+        },
+        "IWD": {
+          "sdtype": "numerical"
+        },
+        "IWA": {
+          "sdtype": "numerical"
+        },
+        "PSH": {
+          "sdtype": "numerical"
+        },
+        "PSD": {
+          "sdtype": "numerical"
+        },
+        "PSA": {
+          "sdtype": "numerical"
+        },
+        "WHH": {
+          "sdtype": "numerical"
+        },
+        "WHD": {
+          "sdtype": "numerical"
+        },
+        "WHA": {
+          "sdtype": "numerical"
+        },
+        "VCH": {
+          "sdtype": "numerical"
+        },
+        "VCD": {
+          "sdtype": "numerical"
+        },
+        "VCA": {
+          "sdtype": "numerical"
+        },
+        "PSCH": {
+          "sdtype": "numerical"
+        },
+        "PSCD": {
+          "sdtype": "numerical"
+        },
+        "PSCA": {
+          "sdtype": "numerical"
+        }
+      },
+      "primary_key": "gameID"
+    },
+    "appearances": {
+      "columns": {
+        "gameID": {
+          "sdtype": "id"
+        },
+        "playerID": {
+          "sdtype": "id"
+        },
+        "goals": {
+          "sdtype": "numerical"
+        },
+        "ownGoals": {
+          "sdtype": "categorical"
+        },
+        "shots": {
+          "sdtype": "numerical"
+        },
+        "xGoals": {
+          "sdtype": "numerical"
+        },
+        "xGoalsChain": {
+          "sdtype": "numerical"
+        },
+        "xGoalsBuildup": {
+          "sdtype": "numerical"
+        },
+        "assists": {
+          "sdtype": "categorical"
+        },
+        "keyPasses": {
+          "sdtype": "numerical"
+        },
+        "xAssists": {
+          "sdtype": "numerical"
+        },
+        "position": {
+          "sdtype": "categorical"
+        },
+        "positionOrder": {
+          "sdtype": "numerical"
+        },
+        "yellowCard": {
+          "sdtype": "categorical"
+        },
+        "redCard": {
+          "sdtype": "categorical"
+        },
+        "time": {
+          "sdtype": "numerical"
+        },
+        "substituteIn": {
+          "sdtype": "numerical"
+        },
+        "substituteOut": {
+          "sdtype": "numerical"
+        },
+        "leagueID": {
+          "sdtype": "categorical"
+        },
+        "appearanceID": {
+          "sdtype": "id"
+        }
+      },
+      "primary_key": "appearanceID"
+    },
+    "teamstats": {
+      "columns": {
+        "gameID": {
+          "sdtype": "id"
+        },
+        "teamID": {
+          "sdtype": "id"
+        },
+        "season": {
+          "sdtype": "numerical"
+        },
+        "date": {
+          "sdtype": "numerical"
+        },
+        "location": {
+          "sdtype": "categorical"
+        },
+        "goals": {
+          "sdtype": "numerical"
+        },
+        "xGoals": {
+          "sdtype": "numerical"
+        },
+        "shots": {
+          "sdtype": "numerical"
+        },
+        "shotsOnTarget": {
+          "sdtype": "numerical"
+        },
+        "deep": {
+          "sdtype": "numerical"
+        },
+        "ppda": {
+          "sdtype": "numerical"
+        },
+        "fouls": {
+          "sdtype": "numerical"
+        },
+        "corners": {
+          "sdtype": "numerical"
+        },
+        "yellowCards": {
+          "sdtype": "numerical"
+        },
+        "redCards": {
+          "sdtype": "categorical"
+        },
+        "result": {
+          "sdtype": "categorical"
+        },
+        "teamplayID": {
+          "sdtype": "id"
+        }
+      },
+      "primary_key": "teamplayID"
+    },
+    "shots": {
+      "columns": {
+        "minute": {
+          "sdtype": "numerical"
+        },
+        "situation": {
+          "sdtype": "categorical"
+        },
+        "lastAction": {
+          "sdtype": "categorical"
+        },
+        "shotType": {
+          "sdtype": "categorical"
+        },
+        "shotResult": {
+          "sdtype": "categorical"
+        },
+        "xGoal": {
+          "sdtype": "categorical"
+        },
+        "positionX": {
+          "sdtype": "categorical"
+        },
+        "positionY": {
+          "sdtype": "categorical"
+        },
+        "shootAppearanceID": {
+          "sdtype": "id"
+        },
+        "assistAppearanceID": {
+          "sdtype": "id"
+        }
+      }
+    }
+  },
+  "relationships": [
+    {
+      "parent_table_name": "teams",
+      "child_table_name": "teamstats",
+      "parent_primary_key": "teamID",
+      "child_foreign_key": "teamID"
+    },
+    {
+      "parent_table_name": "players",
+      "child_table_name": "appearances",
+      "parent_primary_key": "playerID",
+      "child_foreign_key": "playerID"
+    },
+    {
+      "parent_table_name": "games",
+      "child_table_name": "appearances",
+      "parent_primary_key": "gameID",
+      "child_foreign_key": "gameID"
+    },
+    {
+      "parent_table_name": "gamestats",
+      "child_table_name": "teamstats",
+      "parent_primary_key": "gameID",
+      "child_foreign_key": "gameID"
+    },
+    {
+      "parent_table_name": "teamstats",
+      "child_table_name": "games",
+      "parent_primary_key": "teamplayID",
+      "child_foreign_key": "homeTeamPlayID"
+    },
+    {
+      "parent_table_name": "teamstats",
+      "child_table_name": "games",
+      "parent_primary_key": "teamplayID",
+      "child_foreign_key": "awayTeamPlayID"
+    },
+    {
+      "parent_table_name": "appearances",
+      "child_table_name": "shots",
+      "parent_primary_key": "appearanceID",
+      "child_foreign_key": "shootAppearanceID"
+    },
+    {
+      "parent_table_name": "appearances",
+      "child_table_name": "shots",
+      "parent_primary_key": "appearanceID",
+      "child_foreign_key": "assistAppearanceID"
+    }
+  ],
+  "METADATA_SPEC_VERSION": "MULTI_TABLE_V1"
+}

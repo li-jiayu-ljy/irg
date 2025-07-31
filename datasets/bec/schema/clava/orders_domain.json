@@ -1,0 +1,26 @@
+{
+  "order_status": {
+    "size": 8,
+    "type": "discrete"
+  },
+  "order_purchase_timestamp": {
+    "size": 98601,
+    "type": "continuous"
+  },
+  "order_approved_at": {
+    "size": 90499,
+    "type": "continuous"
+  },
+  "order_delivered_carrier_date": {
+    "size": 80827,
+    "type": "continuous"
+  },
+  "order_delivered_customer_date": {
+    "size": 95405,
+    "type": "continuous"
+  },
+  "order_estimated_delivery_date": {
+    "size": 459,
+    "type": "continuous"
+  }
+}

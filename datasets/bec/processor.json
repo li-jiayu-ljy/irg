@@ -1,0 +1,220 @@
+{
+  "customers": {
+    "columns": {
+      "customer_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "customer_zip_code_prefix": {
+        "type": "id",
+        "is_int": true
+      },
+      "customer_state": {}
+    },
+    "order": [
+      "customer_id",
+      "customer_zip_code_prefix",
+      "customer_state"
+    ]
+  },
+  "geolocation": {
+    "columns": {
+      "geolocation_zip_code_prefix": {
+        "type": "id",
+        "is_int": true
+      },
+      "geolocation_state": {},
+      "geolocation_lat": {},
+      "geolocation_lng": {}
+    },
+    "order": [
+      "geolocation_zip_code_prefix",
+      "geolocation_state",
+      "geolocation_lat",
+      "geolocation_lng"
+    ]
+  },
+  "order_items": {
+    "columns": {
+      "order_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "order_item_id": {},
+      "product_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "seller_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "shipping_limit_date": {
+        "type": "datetime",
+        "min": "2016-09-19 00:15:34"
+      },
+      "price": {},
+      "freight_value": {}
+    },
+    "order": [
+      "order_id",
+      "order_item_id",
+      "product_id",
+      "seller_id",
+      "shipping_limit_date",
+      "price",
+      "freight_value"
+    ]
+  },
+  "order_payments": {
+    "columns": {
+      "order_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "payment_sequential": {},
+      "payment_type": {},
+      "payment_installments": {},
+      "payment_value": {}
+    },
+    "order": [
+      "order_id",
+      "payment_sequential",
+      "payment_type",
+      "payment_installments",
+      "payment_value"
+    ]
+  },
+  "order_reviews": {
+    "columns": {
+      "review_id": {},
+      "order_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "review_score": {},
+      "review_creation_date": {
+        "type": "datetime",
+        "min": "2016-10-02 00:00:00"
+      },
+      "review_answer_timestamp": {
+        "type": "datetime",
+        "min": "2016-10-07 18:32:28"
+      }
+    },
+    "order": [
+      "review_id",
+      "order_id",
+      "review_score",
+      "review_creation_date",
+      "review_answer_timestamp"
+    ]
+  },
+  "orders": {
+    "columns": {
+      "order_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "customer_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "order_status": {},
+      "order_purchase_timestamp": {
+        "type": "datetime",
+        "min": "2016-09-04 21:15:19"
+      },
+      "order_approved_at": {
+        "type": "datetime",
+        "min": "2016-09-15 12:16:38",
+        "fillna": -1.0
+      },
+      "order_delivered_carrier_date": {
+        "type": "datetime",
+        "min": "2016-10-08 10:34:01",
+        "fillna": -1.0
+      },
+      "order_delivered_customer_date": {
+        "type": "datetime",
+        "min": "2016-10-11 13:46:32",
+        "fillna": -1.0
+      },
+      "order_estimated_delivery_date": {
+        "type": "datetime",
+        "min": "2016-09-30 00:00:00"
+      }
+    },
+    "order": [
+      "order_id",
+      "customer_id",
+      "order_status",
+      "order_purchase_timestamp",
+      "order_approved_at",
+      "order_delivered_carrier_date",
+      "order_delivered_customer_date",
+      "order_estimated_delivery_date"
+    ]
+  },
+  "products": {
+    "columns": {
+      "product_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "product_category_name": {
+        "fillna": "<special-for-null>"
+      },
+      "product_name_lenght": {
+        "fillna": 4.0
+      },
+      "product_description_lenght": {
+        "fillna": 3.0
+      },
+      "product_photos_qty": {
+        "fillna": 0.0
+      },
+      "product_weight_g": {
+        "fillna": -1.0
+      },
+      "product_length_cm": {
+        "fillna": 6.0
+      },
+      "product_height_cm": {
+        "fillna": 1.0
+      },
+      "product_width_cm": {
+        "fillna": 5.0
+      }
+    },
+    "order": [
+      "product_id",
+      "product_category_name",
+      "product_name_lenght",
+      "product_description_lenght",
+      "product_photos_qty",
+      "product_weight_g",
+      "product_length_cm",
+      "product_height_cm",
+      "product_width_cm"
+    ]
+  },
+  "sellers": {
+    "columns": {
+      "seller_id": {
+        "type": "id",
+        "is_int": false
+      },
+      "seller_zip_code_prefix": {
+        "type": "id",
+        "is_int": true
+      },
+      "seller_state": {}
+    },
+    "order": [
+      "seller_id",
+      "seller_zip_code_prefix",
+      "seller_state"
+    ]
+  }
+}

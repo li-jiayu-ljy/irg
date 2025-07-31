@@ -1,0 +1,105 @@
+{
+  "tables": {
+    "geolocation": {
+      "parents": [],
+      "children": [
+        "customers",
+        "sellers"
+      ]
+    },
+    "customers": {
+      "parents": [
+        "geolocation"
+      ],
+      "children": [
+        "orders"
+      ]
+    },
+    "products": {
+      "parents": [],
+      "children": [
+        "order_items"
+      ]
+    },
+    "sellers": {
+      "parents": [
+        "geolocation"
+      ],
+      "children": [
+        "order_items"
+      ]
+    },
+    "orders": {
+      "parents": [
+        "customers"
+      ],
+      "children": [
+        "order_items",
+        "order_payments",
+        "order_reviews"
+      ]
+    },
+    "order_items": {
+      "parents": [
+        "products",
+        "sellers",
+        "orders"
+      ],
+      "children": []
+    },
+    "order_payments": {
+      "parents": [
+        "orders"
+      ],
+      "children": []
+    },
+    "order_reviews": {
+      "parents": [
+        "orders"
+      ],
+      "children": []
+    }
+  },
+  "relation_order": [
+    [
+      null,
+      "geolocation"
+    ],
+    [
+      null,
+      "products"
+    ],
+    [
+      "geolocation",
+      "customers"
+    ],
+    [
+      "geolocation",
+      "sellers"
+    ],
+    [
+      "products",
+      "order_items"
+    ],
+    [
+      "customers",
+      "orders"
+    ],
+    [
+      "sellers",
+      "order_items"
+    ],
+    [
+      "orders",
+      "order_items"
+    ],
+    [
+      "orders",
+      "order_payments"
+    ],
+    [
+      "orders",
+      "order_reviews"
+    ]
+  ]
+}

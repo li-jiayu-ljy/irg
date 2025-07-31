@@ -1,0 +1,18 @@
+{
+  "order_item_iidd": {
+    "size": 21,
+    "type": "continuous"
+  },
+  "shipping_limit_date": {
+    "size": 92884,
+    "type": "continuous"
+  },
+  "price": {
+    "size": 5948,
+    "type": "continuous"
+  },
+  "freight_value": {
+    "size": 6989,
+    "type": "continuous"
+  }
+}

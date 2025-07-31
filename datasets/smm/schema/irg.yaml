@@ -1,0 +1,106 @@
+tables:
+  players:
+    primary_key: id
+    id_columns:
+      - id
+  courses:
+    primary_key: id
+    id_columns:
+      - id
+  course_maker:
+    primary_key: id
+    id_columns:
+      - id
+      - maker
+    foreign_keys:
+      - parent_table_name: courses
+        parent_column_names: id
+        child_column_names: id
+      - parent_table_name: players
+        parent_column_names: id
+        child_column_names: maker
+  plays:
+    primary_key:
+      - id
+      - player
+    id_columns:
+      - id
+      - player
+    foreign_keys:
+      - parent_table_name: courses
+        parent_column_names: id
+        child_column_names: id
+      - parent_table_name: players
+        parent_column_names: id
+        child_column_names: id
+    sortby: catch
+  clears:
+    primary_key:
+      - id
+      - player
+    id_columns:
+      - id
+      - player
+    foreign_keys:
+      - parent_table_name: plays
+        parent_column_names:
+          - id
+          - player
+        child_column_names:
+          - id
+          - player
+  likes:
+    primary_key:
+      - id
+      - player
+    id_columns:
+      - id
+      - player
+    foreign_keys:
+      - parent_table_name: plays
+        parent_column_names:
+          - id
+          - player
+        child_column_names:
+          - id
+          - player
+  records:
+    primary_key:
+      - id
+      - player
+    id_columns:
+      - id
+      - player
+    foreign_keys:
+      - parent_table_name: plays
+        parent_column_names:
+          - id
+          - player
+        child_column_names:
+          - id
+          - player
+  course_meta:
+    id_columns:
+      - id
+      - firstClear
+    foreign_keys:
+      - parent_table_name: courses
+        parent_column_names: id
+        child_column_names: id
+      - parent_table_name: clears
+        parent_column_names:
+          - id
+          - player
+        child_column_names:
+          - id
+          - firstClear
+    sortby: catch
+order:
+  - players
+  - courses
+  - course_maker
+  - plays
+  - clears
+  - likes
+  - records
+  - course_meta

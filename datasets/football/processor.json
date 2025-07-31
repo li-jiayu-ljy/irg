@@ -1,0 +1,303 @@
+{
+  "teams": {
+    "columns": {
+      "teamID": {
+        "type": "id",
+        "is_int": true
+      },
+      "placeholder": {}
+    },
+    "order": [
+      "teamID",
+      "placeholder"
+    ]
+  },
+  "players": {
+    "columns": {
+      "playerID": {
+        "type": "id",
+        "is_int": true
+      },
+      "placeholder": {}
+    },
+    "order": [
+      "playerID",
+      "placeholder"
+    ]
+  },
+  "games": {
+    "columns": {
+      "gameID": {
+        "type": "id",
+        "is_int": true
+      },
+      "homeTeamID": {
+        "type": "id",
+        "is_int": true
+      },
+      "awayTeamID": {
+        "type": "id",
+        "is_int": true
+      }
+    },
+    "order": [
+      "gameID",
+      "homeTeamID",
+      "awayTeamID"
+    ]
+  },
+  "gamestats": {
+    "columns": {
+      "gameID": {
+        "type": "id",
+        "is_int": true
+      },
+      "leagueID": {},
+      "season": {},
+      "date": {
+        "type": "datetime",
+        "min": "2014-08-08 19:30:00"
+      },
+      "homeGoals": {},
+      "awayGoals": {},
+      "homeProbability": {},
+      "drawProbability": {},
+      "awayProbability": {},
+      "homeGoalsHalfTime": {},
+      "awayGoalsHalfTime": {},
+      "B365H": {
+        "fillna": 0.020000000000000018
+      },
+      "B365D": {
+        "fillna": 1.0
+      },
+      "B365A": {
+        "fillna": 0.08000000000000007
+      },
+      "BWH": {
+        "fillna": 0.030000000000000027
+      },
+      "BWD": {
+        "fillna": 1.0499999999999998
+      },
+      "BWA": {
+        "fillna": 0.09000000000000008
+      },
+      "IWH": {
+        "fillna": 0.030000000000000027
+      },
+      "IWD": {
+        "fillna": 1.1
+      },
+      "IWA": {
+        "fillna": 0.10000000000000009
+      },
+      "PSH": {
+        "fillna": 0.040000000000000036
+      },
+      "PSD": {
+        "fillna": 1.08
+      },
+      "PSA": {
+        "fillna": 0.09000000000000008
+      },
+      "WHH": {
+        "fillna": 0.020000000000000018
+      },
+      "WHD": {
+        "fillna": 0.19999999999999996
+      },
+      "WHA": {
+        "fillna": 0.08000000000000007
+      },
+      "VCH": {
+        "fillna": 0.030000000000000027
+      },
+      "VCD": {
+        "fillna": 1.2000000000000002
+      },
+      "VCA": {
+        "fillna": 0.08000000000000007
+      },
+      "PSCH": {
+        "fillna": 0.040000000000000036
+      },
+      "PSCD": {
+        "fillna": 1.2999999999999998
+      },
+      "PSCA": {
+        "fillna": 0.08000000000000007
+      }
+    },
+    "order": [
+      "gameID",
+      "leagueID",
+      "season",
+      "date",
+      "homeGoals",
+      "awayGoals",
+      "homeProbability",
+      "drawProbability",
+      "awayProbability",
+      "homeGoalsHalfTime",
+      "awayGoalsHalfTime",
+      "B365H",
+      "B365D",
+      "B365A",
+      "BWH",
+      "BWD",
+      "BWA",
+      "IWH",
+      "IWD",
+      "IWA",
+      "PSH",
+      "PSD",
+      "PSA",
+      "WHH",
+      "WHD",
+      "WHA",
+      "VCH",
+      "VCD",
+      "VCA",
+      "PSCH",
+      "PSCD",
+      "PSCA"
+    ]
+  },
+  "appearances": {
+    "columns": {
+      "gameID": {
+        "type": "id",
+        "is_int": true
+      },
+      "playerID": {
+        "type": "id",
+        "is_int": true
+      },
+      "goals": {},
+      "ownGoals": {},
+      "shots": {},
+      "xGoals": {},
+      "xGoalsChain": {},
+      "xGoalsBuildup": {},
+      "assists": {},
+      "keyPasses": {},
+      "xAssists": {},
+      "position": {},
+      "positionOrder": {},
+      "yellowCard": {},
+      "redCard": {},
+      "time": {},
+      "substituteIn": {},
+      "substituteOut": {},
+      "leagueID": {}
+    },
+    "order": [
+      "gameID",
+      "playerID",
+      "goals",
+      "ownGoals",
+      "shots",
+      "xGoals",
+      "xGoalsChain",
+      "xGoalsBuildup",
+      "assists",
+      "keyPasses",
+      "xAssists",
+      "position",
+      "positionOrder",
+      "yellowCard",
+      "redCard",
+      "time",
+      "substituteIn",
+      "substituteOut",
+      "leagueID"
+    ]
+  },
+  "teamstats": {
+    "columns": {
+      "gameID": {
+        "type": "id",
+        "is_int": true
+      },
+      "teamID": {
+        "type": "id",
+        "is_int": true
+      },
+      "season": {},
+      "date": {
+        "type": "datetime",
+        "min": "2014-08-08 19:30:00"
+      },
+      "location": {},
+      "goals": {},
+      "xGoals": {},
+      "shots": {},
+      "shotsOnTarget": {},
+      "deep": {},
+      "ppda": {},
+      "fouls": {},
+      "corners": {},
+      "yellowCards": {
+        "fillna": -1.0
+      },
+      "redCards": {},
+      "result": {}
+    },
+    "order": [
+      "gameID",
+      "teamID",
+      "season",
+      "date",
+      "location",
+      "goals",
+      "xGoals",
+      "shots",
+      "shotsOnTarget",
+      "deep",
+      "ppda",
+      "fouls",
+      "corners",
+      "yellowCards",
+      "redCards",
+      "result"
+    ]
+  },
+  "shots": {
+    "columns": {
+      "gameID": {
+        "type": "id",
+        "is_int": true
+      },
+      "shooterID": {
+        "type": "id",
+        "is_int": true
+      },
+      "assisterID": {
+        "type": "id",
+        "is_int": true
+      },
+      "minute": {},
+      "situation": {},
+      "lastAction": {},
+      "shotType": {},
+      "shotResult": {},
+      "xGoal": {},
+      "positionX": {},
+      "positionY": {}
+    },
+    "order": [
+      "gameID",
+      "shooterID",
+      "assisterID",
+      "minute",
+      "situation",
+      "lastAction",
+      "shotType",
+      "shotResult",
+      "xGoal",
+      "positionX",
+      "positionY"
+    ]
+  }
+}

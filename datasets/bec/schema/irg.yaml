@@ -1,0 +1,84 @@
+tables:
+  geolocation:
+    primary_key: geolocation_zip_code_prefix
+    id_columns:
+      - geolocation_zip_code_prefix
+  customers:
+    primary_key: customer_id
+    id_columns:
+      - customer_id
+      - customer_zip_code_prefix
+    foreign_keys:
+      - parent_table_name: geolocation
+        parent_column_names: geolocation_zip_code_prefix
+        child_column_names: customer_zip_code_prefix
+  sellers:
+    primary_key: seller_id
+    id_columns:
+      - seller_id
+      - seller_zip_code_prefix
+    foreign_keys:
+      - parent_table_name: geolocation
+        parent_column_names: geolocation_zip_code_prefix
+        child_column_names: seller_zip_code_prefix
+  orders:
+    primary_key: order_id
+    id_columns:
+      - customer_id
+      - order_id
+    foreign_keys:
+      - parent_table_name: customers
+        parent_column_names: customer_id
+        child_column_names: customer_id
+  products:
+    primary_key: product_id
+    id_columns:
+      - product_id
+  order_items:
+    primary_key:
+      - order_id
+      - order_item_id
+    id_columns:
+      - order_id
+    foreign_keys:
+      - parent_table_name: orders
+        parent_column_names: order_id
+        child_column_names: order_id
+      - parent_table_name: products
+        parent_column_names: product_id
+        child_column_names: product_id
+      - parent_table_name: sellers
+        parent_column_names: seller_id
+        child_column_names: seller_id
+    sortby: order_item_id
+  order_payments:
+    primary_key:
+      - order_id
+      - payment_sequential
+    id_columns:
+      - order_id
+    foreign_keys:
+      - parent_table_name: orders
+        parent_column_names: order_id
+        child_column_names: order_id
+    sortby: payment_sequential
+  order_reviews:
+    primary_key: review_id
+    id_columns:
+      - order_id
+      - review_id
+    foreign_keys:
+      - parent_table_name: orders
+        parent_column_names: order_id
+        child_column_names: order_id
+    sortby: review_answer_timestamp
+order:
+  - geolocation
+  - products
+  - customers
+  - sellers
+  - orders
+  - order_items
+  - order_payments
+  - order_reviews
+

@@ -1,0 +1,14 @@
+{
+  "review_score": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "review_creation_date": {
+    "size": 636,
+    "type": "continuous"
+  },
+  "review_answer_timestamp": {
+    "size": 97973,
+    "type": "continuous"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "goals": {
+    "size": 6,
+    "type": "continuous"
+  },
+  "ownGoals": {
+    "size": 3,
+    "type": "discrete"
+  },
+  "shots": {
+    "size": 15,
+    "type": "continuous"
+  },
+  "xGoals": {
+    "size": 167048,
+    "type": "continuous"
+  },
+  "xGoalsChain": {
+    "size": 242528,
+    "type": "continuous"
+  },
+  "xGoalsBuildup": {
+    "size": 178512,
+    "type": "continuous"
+  },
+  "assists": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "keyPasses": {
+    "size": 13,
+    "type": "continuous"
+  },
+  "xAssists": {
+    "size": 140695,
+    "type": "continuous"
+  },
+  "position": {
+    "size": 17,
+    "type": "discrete"
+  },
+  "positionOrder": {
+    "size": 17,
+    "type": "continuous"
+  },
+  "yellowCard": {
+    "size": 2,
+    "type": "discrete"
+  },
+  "redCard": {
+    "size": 2,
+    "type": "discrete"
+  },
+  "time": {
+    "size": 90,
+    "type": "continuous"
+  },
+  "substituteIn": {
+    "size": 77560,
+    "type": "continuous"
+  },
+  "substituteOut": {
+    "size": 77560,
+    "type": "continuous"
+  },
+  "leagueID": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "_isna_key": {
+    "size": 2,
+    "type": "discrete"
+  }
+}

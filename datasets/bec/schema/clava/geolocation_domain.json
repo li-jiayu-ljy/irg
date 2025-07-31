@@ -1,0 +1,14 @@
+{
+  "geolocation_state": {
+    "size": 27,
+    "type": "discrete"
+  },
+  "geolocation_lat": {
+    "size": 19002,
+    "type": "continuous"
+  },
+  "geolocation_lng": {
+    "size": 19001,
+    "type": "continuous"
+  }
+}

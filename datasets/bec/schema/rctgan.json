@@ -1,0 +1,244 @@
+{
+  "tables": {
+    "geolocation": {
+      "fields": {
+        "geolocation_zip_code_prefix": {
+          "type": "id",
+          "subtype": "integer"
+        },
+        "geolocation_state": {
+          "type": "categorical"
+        },
+        "geolocation_lat": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "geolocation_lng": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      },
+      "primary_key": "geolocation_zip_code_prefix"
+    },
+    "customers": {
+      "fields": {
+        "customer_id": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "customer_zip_code_prefix": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "geolocation",
+            "field": "geolocation_zip_code_prefix"
+          }
+        },
+        "customer_state": {
+          "type": "categorical"
+        }
+      },
+      "primary_key": "customer_id"
+    },
+    "products": {
+      "fields": {
+        "product_id": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "product_category_name": {
+          "type": "categorical"
+        },
+        "product_name_lenght": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_description_lenght": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_photos_qty": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_weight_g": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_length_cm": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_height_cm": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "product_width_cm": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      },
+      "primary_key": "product_id"
+    },
+    "sellers": {
+      "fields": {
+        "seller_id": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "seller_zip_code_prefix": {
+          "type": "id",
+          "subtype": "integer",
+          "ref": {
+            "table": "geolocation",
+            "field": "geolocation_zip_code_prefix"
+          }
+        },
+        "seller_state": {
+          "type": "categorical"
+        }
+      },
+      "primary_key": "seller_id"
+    },
+    "orders": {
+      "fields": {
+        "order_id": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "customer_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "customers",
+            "field": "customer_id"
+          }
+        },
+        "order_status": {
+          "type": "categorical"
+        },
+        "order_purchase_timestamp": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "order_approved_at": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "order_delivered_carrier_date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "order_delivered_customer_date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "order_estimated_delivery_date": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      },
+      "primary_key": "order_id"
+    },
+    "order_items": {
+      "fields": {
+        "order_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "orders",
+            "field": "order_id"
+          }
+        },
+        "order_item_id": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "product_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "products",
+            "field": "product_id"
+          }
+        },
+        "seller_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "sellers",
+            "field": "seller_id"
+          }
+        },
+        "shipping_limit_date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "price": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "freight_value": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      }
+    },
+    "order_payments": {
+      "fields": {
+        "order_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "orders",
+            "field": "order_id"
+          }
+        },
+        "payment_sequential": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "payment_type": {
+          "type": "categorical"
+        },
+        "payment_installments": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "payment_value": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      }
+    },
+    "order_reviews": {
+      "fields": {
+        "review_id": {
+          "type": "id",
+          "subtype": "string"
+        },
+        "order_id": {
+          "type": "id",
+          "subtype": "string",
+          "ref": {
+            "table": "orders",
+            "field": "order_id"
+          }
+        },
+        "review_score": {
+          "type": "numerical",
+          "subtype": "integer"
+        },
+        "review_creation_date": {
+          "type": "numerical",
+          "subtype": "float"
+        },
+        "review_answer_timestamp": {
+          "type": "numerical",
+          "subtype": "float"
+        }
+      },
+      "primary_key": "review_id"
+    }
+  }
+}

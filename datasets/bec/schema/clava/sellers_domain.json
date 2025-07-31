@@ -1,0 +1,6 @@
+{
+  "seller_state": {
+    "size": 23,
+    "type": "discrete"
+  }
+}

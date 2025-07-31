@@ -1,0 +1,34 @@
+{
+  "product_category_name": {
+    "size": 74,
+    "type": "discrete"
+  },
+  "product_name_lenght": {
+    "size": 67,
+    "type": "continuous"
+  },
+  "product_description_lenght": {
+    "size": 2961,
+    "type": "continuous"
+  },
+  "product_photos_qty": {
+    "size": 20,
+    "type": "continuous"
+  },
+  "product_weight_g": {
+    "size": 2205,
+    "type": "continuous"
+  },
+  "product_length_cm": {
+    "size": 100,
+    "type": "continuous"
+  },
+  "product_height_cm": {
+    "size": 103,
+    "type": "continuous"
+  },
+  "product_width_cm": {
+    "size": 96,
+    "type": "continuous"
+  }
+}

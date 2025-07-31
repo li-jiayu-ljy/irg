@@ -1,0 +1,128 @@
+{
+  "tables": {
+    "teams": {
+      "parents": [],
+      "children": [
+        "teamstats"
+      ]
+    },
+    "players": {
+      "parents": [],
+      "children": [
+        "appearances"
+      ]
+    },
+    "games": {
+      "parents": [
+        "teamstats",
+        "teamstats2"
+      ],
+      "children": [
+        "appearances"
+      ]
+    },
+    "gamestats": {
+      "parents": [],
+      "children": [
+        "teamstats"
+      ]
+    },
+    "appearances": {
+      "parents": [
+        "players",
+        "games"
+      ],
+      "children": [
+        "appearances2",
+        "shots"
+      ]
+    },
+    "appearances2": {
+      "parents": [
+        "appearances"
+      ],
+      "children": [
+        "shots"
+      ]
+    },
+    "teamstats": {
+      "parents": [
+        "teams",
+        "gamestats"
+      ],
+      "children": [
+        "games",
+        "teamstats2"
+      ]
+    },
+    "teamstats2": {
+      "parents": [
+        "teamstats"
+      ],
+      "children": [
+        "games"
+      ]
+    },
+    "shots": {
+      "parents": [
+        "appearances",
+        "appearances2"
+      ],
+      "children": []
+    }
+  },
+  "relation_order": [
+    [
+      null,
+      "teams"
+    ],
+    [
+      null,
+      "players"
+    ],
+    [
+      null,
+      "gamestats"
+    ],
+    [
+      "teams",
+      "teamstats"
+    ],
+    [
+      "players",
+      "appearances"
+    ],
+    [
+      "gamestats",
+      "teamstats"
+    ],
+    [
+      "teamstats",
+      "games"
+    ],
+    [
+      "teamstats",
+      "teamstats2"
+    ],
+    [
+      "teamstats2",
+      "games"
+    ],
+    [
+      "games",
+      "appearances"
+    ],
+    [
+      "appearances",
+      "appearances2"
+    ],
+    [
+      "appearances",
+      "shots"
+    ],
+    [
+      "appearances2",
+      "shots"
+    ]
+  ]
+}

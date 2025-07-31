@@ -1,0 +1,58 @@
+{
+  "season": {
+    "size": 7,
+    "type": "continuous"
+  },
+  "date": {
+    "size": 6834,
+    "type": "continuous"
+  },
+  "location": {
+    "size": 2,
+    "type": "discrete"
+  },
+  "goals": {
+    "size": 11,
+    "type": "continuous"
+  },
+  "xGoals": {
+    "size": 24687,
+    "type": "continuous"
+  },
+  "shots": {
+    "size": 42,
+    "type": "continuous"
+  },
+  "shotsOnTarget": {
+    "size": 19,
+    "type": "continuous"
+  },
+  "deep": {
+    "size": 38,
+    "type": "continuous"
+  },
+  "ppda": {
+    "size": 6789,
+    "type": "continuous"
+  },
+  "fouls": {
+    "size": 33,
+    "type": "continuous"
+  },
+  "corners": {
+    "size": 21,
+    "type": "continuous"
+  },
+  "yellowCards": {
+    "size": 11,
+    "type": "continuous"
+  },
+  "redCards": {
+    "size": 4,
+    "type": "discrete"
+  },
+  "result": {
+    "size": 3,
+    "type": "discrete"
+  }
+}

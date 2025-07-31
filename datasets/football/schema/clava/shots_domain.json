@@ -1,0 +1,34 @@
+{
+  "minute": {
+    "size": 105,
+    "type": "continuous"
+  },
+  "situation": {
+    "size": 5,
+    "type": "discrete"
+  },
+  "lastAction": {
+    "size": 41,
+    "type": "discrete"
+  },
+  "shotType": {
+    "size": 4,
+    "type": "discrete"
+  },
+  "shotResult": {
+    "size": 6,
+    "type": "discrete"
+  },
+  "xGoal": {
+    "size": 309621,
+    "type": "discrete"
+  },
+  "positionX": {
+    "size": 813,
+    "type": "discrete"
+  },
+  "positionY": {
+    "size": 930,
+    "type": "discrete"
+  }
+}

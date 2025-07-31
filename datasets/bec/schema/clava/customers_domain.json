@@ -1,0 +1,6 @@
+{
+  "customer_state": {
+    "size": 27,
+    "type": "discrete"
+  }
+}

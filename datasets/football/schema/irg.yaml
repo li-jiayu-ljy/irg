@@ -1,0 +1,111 @@
+tables:
+  teams:
+    primary_key: teamID
+    id_columns:
+      - teamID
+  players:
+    primary_key: playerID
+    id_columns:
+      - playerID
+  gamestats:
+    primary_key: gameID
+    id_columns:
+      - gameID
+  games:
+    primary_key: gameID
+    foreign_keys:
+      - parent_table_name: gamestats
+        parent_column_names: gameID
+        child_column_names: gameID
+      - parent_table_name: teamstats
+        child_column_names:
+          - gameID
+          - homeTeamID
+        parent_column_names:
+          - gameID
+          - teamID
+      - parent_table_name: teamstats
+        child_column_names:
+          - gameID
+          - awayTeamID
+        parent_column_names:
+          - gameID
+          - teamID
+    inequality:
+      - - homeTeamID
+        - awayTeamID
+    id_columns:
+      - gameID
+      - homeTeamID
+      - awayTeamID
+  appearances:
+    primary_key:
+      - playerID
+      - gameID
+    foreign_keys:
+      - parent_table_name: players
+        child_column_names: playerID
+        parent_column_names: playerID
+      - parent_table_name: games
+        child_column_names: gameID
+        parent_column_names: gameID
+    id_columns:
+      - playerID
+      - gameID
+  teamstats:
+    primary_key:
+      - teamID
+      - gameID
+    foreign_keys:
+      - parent_table_name: teams
+        child_column_names: teamID
+        parent_column_names: teamID
+      - parent_table_name: gamestats
+        child_column_names: gameID
+        parent_column_names: gameID
+    sortby: date
+    id_columns:
+      - gameID
+      - teamID
+  shots:
+    foreign_keys:
+      - parent_table_name: appearances
+        child_column_names:
+          - gameID
+          - shooterID
+        parent_column_names:
+          - gameID
+          - playerID
+      - parent_table_name: appearances
+        child_column_names:
+          - gameID
+          - assisterID
+        parent_column_names:
+          - gameID
+          - playerID
+    sortby: minute
+    inequality:
+      - - shooterID
+        - assisterID
+    id_columns:
+      - shooterID
+      - assisterID
+      - gameID
+order:
+  - teams
+  - players
+  - gamestats
+  - teamstats
+  - games
+  - appearances
+  - shots
+#default_args:
+#  standalone:
+#    max_steps: 10
+#    epochs: 1
+#  aggregated:
+#    max_steps: 10
+#    epochs: 1
+#  actual:
+#    max_steps: 10
+#    epochs: 1
