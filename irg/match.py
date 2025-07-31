@@ -117,6 +117,40 @@ def compute_distances(
     return distances
 
 
+def swap_isna(isna, pools):
+    pool_isna = np.array([p is None for p in pools])
+    if pool_isna.shape[0] > 0 and not pool_isna.all() and pool_isna.any():
+        if pool_isna.sum() <= isna.sum():
+            isna_swap_in = (pool_isna & (~isna)).nonzero()[0]
+            isna_swap_out = np.random.choice((isna & (~pool_isna)).nonzero()[0], size=isna_swap_in.shape[0])
+            isna = isna.copy()
+            isna[isna_swap_in] = True
+            isna[isna_swap_out] = False
+        else:
+            isna = pool_isna
+    return isna
+
+
+def filter_na(device, isna, non_overlapping_groups, parent, pools, values):
+    isna = swap_isna(isna, pools)
+    notna = ~isna
+    not_na_indices = torch.arange(values.shape[0])[notna]  # i -> e
+    all_to_not_na_indices = torch.zeros(values.shape[0], dtype=torch.long) - 1  # e -> i
+    all_to_not_na_indices[notna] = torch.arange(not_na_indices.shape[0])
+    dist_x = torch.from_numpy(values[notna].astype(np.float32)).to(device)
+    dist_y = torch.from_numpy(parent.astype(np.float32)).to(device)
+    dist_x = F.normalize(dist_x, p=2, dim=1, eps=1e-6)
+    dist_y = F.normalize(dist_y, p=2, dim=1, eps=1e-6)
+    filtered_pools = [
+        p for i, p in enumerate(pools) if notna[i]
+    ]
+    filtered_non_overlapping_groups = [
+        all_to_not_na_indices[group][all_to_not_na_indices[group] >= 0].cpu().numpy()
+        for group in non_overlapping_groups
+    ]
+    return dist_x, dist_y, filtered_non_overlapping_groups, filtered_pools, isna, notna
+
+
 def find_connected_components(groups: List[np.ndarray], max_matrix_size: int) -> Tuple[
     List[np.ndarray], List[np.ndarray]
 ]:
@@ -151,21 +185,32 @@ def find_connected_components(groups: List[np.ndarray], max_matrix_size: int) ->
 
     width = max(g.max() for g in groups if g.shape[0] > 0) + 1
     chunk_size = max(1, max_matrix_size // width)
-    group_indices = [[] for _ in component_indices]
-    for st in tqdm(range(0, len(groups), chunk_size), desc="Collect indices"):
-        ed = min(st + chunk_size, len(groups))
+    def process_chunk(st, ed, gs):
         pool_matrix = np.zeros((ed - st, width), dtype=np.bool_)
-        for i, group in enumerate(groups[st:ed]):
+        for i, group in enumerate(gs):
             pool_matrix[i, group] = True
+        chunk_results = []
         for i, component in enumerate(component_indices):
-            group_indices[i].append(np.nonzero(pool_matrix[:, component].any(axis=1))[0] + st)
+            chunk_results.append(np.nonzero(pool_matrix[:, component].any(axis=1))[0] + st)
+        return chunk_results
+    group_indices = [[] for _ in component_indices]
+    chunk_results = Parallel(n_jobs=10)(
+        delayed(process_chunk)(st, min(st + chunk_size, len(groups)), groups[st:min(st + chunk_size, len(groups))])
+        for st in tqdm(range(0, len(groups), chunk_size), desc="Collect indices")
+    )
+    for chunk in chunk_results:
+        for i, indices in enumerate(chunk):
+            group_indices[i].append(indices)
     group_indices = [np.concatenate(x) for x in group_indices]
 
     return component_indices, group_indices
 
 
 def swap_degrees(component_min_size, connected_components, degrees, component_pred_degrees):
-    print(f"Need to swap degrees: {np.clip(component_min_size - component_pred_degrees, 0, None).sum()}")
+    n_need_to_swap = np.clip(component_min_size - component_pred_degrees, 0, None).sum()
+    if n_need_to_swap > 0:
+        warnings.warn(f"Need to swap degrees: "
+                      f"{np.clip(component_min_size - component_pred_degrees, 0, None).sum()}")
     for component_index in tqdm(range(len(connected_components)), "Swap degrees", total=len(connected_components)):
         pool, min_size, pred_size = (
             connected_components[component_index], component_min_size[component_index], component_pred_degrees[component_index]
@@ -237,7 +282,7 @@ def collect_connected_components(degrees, dist_x, filtered_pools, max_matrix_siz
 
 def sample_parent_degrees(
         unique_groups: List[np.array], remaining_degrees: np.array,
-        connected_components: List[np.array], row_component_match: np.array,
+        connected_components: List[np.array], row_component_match: np.array, pools: List[Optional[np.ndarray]]
 ) -> Tuple[np.array, np.array, np.array]:
     selected_degrees = np.zeros_like(remaining_degrees)
     min_unique_per_component = np.zeros(len(connected_components), dtype=np.int32)
@@ -248,8 +293,21 @@ def sample_parent_degrees(
         min_unique_per_component = np.maximum(min_unique_per_component, group_min_unique_per_component)
     row_indices = np.concatenate(unique_groups)
     relaxed_degrees = np.array([], dtype=np.int32)
-    for ci, cc in zip(*np.unique(row_component_match[row_indices], return_counts=True)):
+    row_component_indices = row_component_match[row_indices]
+    for ci, cc in zip(*np.unique(row_component_indices, return_counts=True)):
         pool = connected_components[ci]
+        relevant_rows = row_indices[row_component_indices == ci]
+        appeared_values = None
+        for ri in relevant_rows:
+            if pools[ri] is not None:
+                if appeared_values is None:
+                    appeared_values = pools[ri]
+                else:
+                    appeared_values = np.union1d(pools[ri], appeared_values)
+            else:
+                appeared_values = np.arange(remaining_degrees.shape[0])
+        if appeared_values is not None:
+            pool = np.intersect1d(pool, appeared_values)
         min_unique = min_unique_per_component[ci]
         allowed_pool = np.intersect1d(pool, remaining_degrees.nonzero()[0])
         if allowed_pool.shape[0] > min_unique:
@@ -259,10 +317,15 @@ def sample_parent_degrees(
         elif allowed_pool.shape[0] == min_unique:
             selected_pool = allowed_pool
         else:
-            relaxed_degrees = np.random.choice(np.setdiff1d(
+            remaining_choices = np.setdiff1d(
                 pool, remaining_degrees.nonzero()[0]
-            ), size=min_unique - allowed_pool.shape[0], replace=False)
+            )
+            relaxed_degrees = np.random.choice(
+                remaining_choices, size=min(min_unique - allowed_pool.shape[0], remaining_choices.shape[0]),
+                replace=False
+            )
             selected_pool = np.sort(np.concatenate([allowed_pool, relaxed_degrees]))
+            warnings.warn(f"Degrees violated: {relaxed_degrees.shape[0]} relaxed.")
         unique_selected = np.zeros_like(remaining_degrees)
         unique_selected[selected_pool] = 1
         sampled = np.random.choice(
@@ -312,22 +375,10 @@ def match_trial(
         int_scale: float = 10_000, max_matrix_size: int = 100_000_000,
 ) -> np.ndarray:
     degrees = degrees.astype(np.int64)
-    notna = ~isna
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    not_na_indices = torch.arange(values.shape[0])[notna]  # i -> e
-    all_to_not_na_indices = torch.zeros(values.shape[0], dtype=torch.long) - 1  # e -> i
-    all_to_not_na_indices[notna] = torch.arange(not_na_indices.shape[0])
-    dist_x = torch.from_numpy(values[notna].astype(np.float32)).to(device)
-    dist_y = torch.from_numpy(parent.astype(np.float32)).to(device)
-    dist_x = F.normalize(dist_x, p=2, dim=1, eps=1e-6)
-    dist_y = F.normalize(dist_y, p=2, dim=1, eps=1e-6)
-    filtered_pools = [
-        p for i, p in enumerate(pools) if notna[i]
-    ]
-    filtered_non_overlapping_groups = [
-        all_to_not_na_indices[group][all_to_not_na_indices[group] >= 0].cpu().numpy()
-        for group in non_overlapping_groups
-    ]
+    dist_x, dist_y, filtered_non_overlapping_groups, filtered_pools, isna, notna = filter_na(
+        device, isna, non_overlapping_groups, parent, pools, values
+    )
 
     (component_min_size, compute_all_distances, connected_components,
      connected_pool_indices, pred_degrees, row_component_match, col_component_match) = collect_connected_components(
@@ -377,7 +428,8 @@ def match_trial(
                 np.ones_like(curr_idx_range, np.int32), np.zeros_like(curr_idx_range, np.int32)
             )
             selected_parents, selected_degrees, relaxed_degrees = sample_parent_degrees(
-                filtered_non_overlapping_groups[st:ed], remaining_degrees, connected_components, row_component_match
+                filtered_non_overlapping_groups[st:ed], remaining_degrees, connected_components, row_component_match,
+                filtered_pools
             )
             remaining_degrees[relaxed_degrees] += 1
             degrees[relaxed_degrees] += 1
@@ -479,9 +531,10 @@ def match_trial(
             smcf = SimpleMinCostFlow()
             src_idx, tgt_idx, curr_offset = 0, 1, 2
             batch_indices = np.arange(st, min(st + chunk_size, dist_x.shape[0]))
-            parent_offset = batch_indices.shape[0] + curr_offset
+            parent_offset = dist_x.shape[0] + curr_offset
             selected_parents, selected_degrees, relaxed_degrees = sample_parent_degrees(
-                [np.array([x]) for x in batch_indices], remaining_degrees, connected_components, row_component_match
+                [np.array([x]) for x in batch_indices], remaining_degrees, connected_components, row_component_match,
+                filtered_pools
             )
             remaining_degrees[relaxed_degrees] += 1
             degrees[relaxed_degrees] += 1
@@ -510,6 +563,7 @@ def match_trial(
             status = smcf.solve_max_flow_with_min_cost()
             max_flow = smcf.maximum_flow()
             if max_flow < batch_indices.shape[0] or status.name != "OPTIMAL":
+                raise ValueError()
                 warnings.warn(
                     f"No solution found for MCMBM "
                     f"at group {st}/{dist_x.shape[0]}: "
@@ -530,7 +584,7 @@ def match_trial(
                 if (not curr_offset <= src < parent_offset or
                         not parent_offset <= dst < parent_offset + degrees.shape[0]):
                     raise ValueError("Edge out of range.")
-                matched[src - curr_offset + st] = dst - parent_offset
+                matched[src - curr_offset] = dst - parent_offset
                 remaining_degrees[dst - parent_offset] -= 1
             if err_cnt / smcf.num_arcs() > 0.1:
                 raise RuntimeError(f"Too many errors: {err_cnt}/{smcf.num_arcs()}")
@@ -548,6 +602,7 @@ def match_trial(
     validate_matching(
         values, parent, degrees, isna, pools, non_overlapping_groups, matched
     )
+    print("Matched", (matched[notna] >= 0).sum(), "of", notna.sum())
     return matched
 
 
@@ -623,7 +678,7 @@ def _match_test(
     if matched[~isna].max() > n_parent:
         raise ValueError("Matched range wrong")
     for i, pool in enumerate(pools):
-        if not isna[i] and pool is not None and matched[i] >= 0 and matched[i] not in pool:
+        if not isna[i] and pool is not None and matched[i] not in pool:
             raise ValueError("pool violated")
     for group in non_overlapping_groups:
         group_matched = matched[group]
