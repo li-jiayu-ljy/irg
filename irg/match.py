@@ -563,7 +563,6 @@ def match_trial(
             status = smcf.solve_max_flow_with_min_cost()
             max_flow = smcf.maximum_flow()
             if max_flow < batch_indices.shape[0] or status.name != "OPTIMAL":
-                raise ValueError()
                 warnings.warn(
                     f"No solution found for MCMBM "
                     f"at group {st}/{dist_x.shape[0]}: "
