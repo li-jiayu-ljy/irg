@@ -91,12 +91,13 @@ def round_degrees(
             cnt += 1
 
         sum_degrees = degrees.sum()
+        degrees = degress.astype(np.int32)
         if min_sum <= sum_degrees <= max_sum:
             return degrees
         elif sum_degrees > max_sum:
-            return _reduce_degrees(sum_degrees, max_sum, min_val, floor)
+            return _reduce_degrees(sum_degrees, max_sum, min_val, degrees)
         else:
-            return _augment_degrees(sum_degrees, min_sum, max_val, ceil)
+            return _augment_degrees(sum_degrees, min_sum, max_val, degrees)
 
 
 def _augment_degrees(current_sum: int, min_sum: float, max_val: int, current_degrees: np.ndarray) -> np.ndarray:
