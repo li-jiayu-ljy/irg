@@ -182,7 +182,7 @@ class IncrementalRelationalGenerator:
                                         tn, i, self.transformer._fitted_cache_dir
                                     )
                                     if isnull is not None:
-                                        expected_sum = round(n_rows * isnull[1].astype(np.float32).mean())
+                                        expected_sum = n_rows - isnull[1].sum()
                                     else:
                                         expected_sum = n_rows
                                     degrees = predict_degrees(
