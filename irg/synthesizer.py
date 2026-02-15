@@ -179,7 +179,7 @@ class IncrementalRelationalGenerator:
                                     if min_val != max_val and not fk.unique:
                                         max_val = np.inf
                                     isnull = self.transformer.isna_indicator_prediction_for(
-                                        tn, i, self.transformer._fitted_cache_dir
+                                        tn, i, out_dir
                                     )
                                     if isnull is not None:
                                         expected_sum = n_rows - isnull[1].sum()
