@@ -164,7 +164,38 @@ class IncrementalRelationalGenerator:
                                 self.transformer.save_actual_values_for(tn, values, groups, out_dir)
                                 n_rows = values.shape[0]
                                 del context, length, _, values, run
+                    
+                    with CacheBlock(f"first-match-{tn}", cache_dir) as run:
+                        if run:
+                            with log_resource_usage(
+                                    resource_path, f"prepare first match {tn}"
+                            ):
+                                _, deg = self.transformer.degree_prediction_for(tn, 0, out_dir)
+                                match_to_orig = np.arange((deg > 0).sum()) + (deg == 0).cumsum()[deg > 0]
+                                inverse_groups = np.full(n_rows, -1)
+                                for j, g in enumerate(groups):
+                                    inverse_groups[g] = match_to_orig[j]
+                                self.transformer.save_matched_indices_for(
+                                    tn, 0, inverse_groups, out_dir
+                                )
+                                del inverse_groups, run
+                                
                     for i, fk in enumerate(foreign_keys[1:], 1):
+                        with CacheBlock(f"isna{i}-{tn}", cache_dir) as run:
+                            if run:
+                                with log_resource_usage(
+                                        resource_path, f"gen isna {tn}.({'|'.join(fk.child_column_names)})[{i}]"
+                                ):
+                                    isnull = self.transformer.isna_indicator_prediction_for(tn, i, out_dir)
+                                    if isnull is not None:
+                                        isna_context, _ = isnull
+                                        isna = predict_isna_indicator(
+                                            isna_context, os.path.join(table_model_dir, f"isna{i}")
+                                        )
+                                        self.transformer.save_isna_indicator_for(tn, i, isna, out_dir)
+                                        del isna_context, isna, _
+                                    del isnull, run
+                                    
                         with CacheBlock(f"deg{i}-{tn}", cache_dir) as run:
                             if run:
                                 with log_resource_usage(
@@ -192,39 +223,6 @@ class IncrementalRelationalGenerator:
                                     )
                                     self.transformer.save_degree_for(tn, i, degrees, out_dir)
                                     del deg_context, min_val, max_val, _, degrees, run
-
-                    for i, fk in enumerate(foreign_keys):
-                        if i == 0:
-                            with CacheBlock(f"first-match-{tn}", cache_dir) as run:
-                                if run:
-                                    with log_resource_usage(
-                                            resource_path, f"prepare first match {tn}"
-                                    ):
-                                        _, deg = self.transformer.degree_prediction_for(tn, i, out_dir)
-                                        match_to_orig = np.arange((deg > 0).sum()) + (deg == 0).cumsum()[deg > 0]
-                                        inverse_groups = np.full(n_rows, -1)
-                                        for j, g in enumerate(groups):
-                                            inverse_groups[g] = match_to_orig[j]
-                                        self.transformer.save_matched_indices_for(
-                                            tn, i, inverse_groups, out_dir
-                                        )
-                                        del inverse_groups, run
-                            continue
-
-                        with CacheBlock(f"isna{i}-{tn}", cache_dir) as run:
-                            if run:
-                                with log_resource_usage(
-                                        resource_path, f"gen isna {tn}.({'|'.join(fk.child_column_names)})[{i}]"
-                                ):
-                                    isnull = self.transformer.isna_indicator_prediction_for(tn, i, out_dir)
-                                    if isnull is not None:
-                                        isna_context, _ = isnull
-                                        isna = predict_isna_indicator(
-                                            isna_context, os.path.join(table_model_dir, f"isna{i}")
-                                        )
-                                        self.transformer.save_isna_indicator_for(tn, i, isna, out_dir)
-                                        del isna_context, isna, _
-                                    del isnull, run
 
                         with CacheBlock(f"match{i}-{tn}", cache_dir) as run:
                             if run:
